@@ -1,60 +1,46 @@
 package org.tiramisu.app
 
 import org.tiramisu._
-import org.tiramisu.providers._
-import java.util.Date
 
-case class Book(name:String)
+case class Book(id:Int, name:String, author:String)
 
 trait IndexController{self:Controller=>
-  route /"index" -> view("index")
+  route -> {
+    request.getRequestDispatcher("/store/books").forward(request, response)
+  }
 }
 
 trait BookController{ self: Controller with BookRepository =>
 
   implicit def bookProvider = booksDao
 
-  val routeBooks = route /"store"/string/"books" /classOf[Book]
+  template("booksTemplate"){
 
-  template("template1"){
+    val routeBooks = route /"store"/"books"
 
-    routeBooks/"view" -> { (storeName, book)=>
-      view("index", book, "store"->storeName, new Date)
+    def composeBooks(selected:Book*) =
+      compose("booksPage","books"->booksDao.all,"selected"->selected)
+
+    routeBooks -> composeBooks()
+
+    routeBooks /classOf[Book] -> {book=>
+      composeBooks(book)
     }
-
-    case class Item(fName:String, fLastName:String){
-      val name = fName
-      val lastName = fLastName
-    }
-
-    routeBooks /"compose" ->{ (storeName, book)=>
-      compose("page1",
-              book,
-              "store"->storeName,
-              new Date,
-              "items"->List(
-                Item("Igor","Petruk"),
-                Item("Rocksy","Seletska")
-              ))
-    }
-
-    routeBooks /"compose2" ->{ (storeName, book)=>
-      compose("page2",
-        book,
-        "store"->storeName,
-        new Date,
-        "items"->List())
-    }
-
-    route /"history"/string -> { (page)=>
-      request.getRequestDispatcher("/history.html").forward(request,response)
-    }
+    
   }
 }
 
 trait BookRepository{
   lazy val booksDao = new EntityProvider[Book]{
-    def provide(id:String) = Book("Book"+id)
+    val all = List(
+      Book(1, "War and Peace", "Tolstoy"),
+      Book(2, "Dogs Heart","Bulgakov"),
+      Book(3, "Сказки", "Пушкин")
+    )
+    
+    val booksIndex = all.groupBy(_.id).map{item=>(item._1,item._2.head)}
+
+    def provide(id:String) = booksIndex.getOrElse(Integer.parseInt(id), null)
   }
 }
 

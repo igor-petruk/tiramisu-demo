@@ -1,0 +1,18 @@
+<t:composite xmlns:t="http://tiramisu.org/dev-0">
+    <t:data name="head">
+    </t:data>
+    <t:data name="body">
+        <h2> Books </h2>
+
+        <table border="1">
+            <t:for var="book" items="books">
+                <tr>
+                    <td>${book.id()}</td>
+                    <td><a href="${book.id()}">${book.name()}</a></td>
+                    <td>${book.author()}</td>
+                </tr>
+            </t:for>
+        </table>
+
+    </t:data>
+</t:composite>
