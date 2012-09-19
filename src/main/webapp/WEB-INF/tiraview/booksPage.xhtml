@@ -1,18 +1,32 @@
 <t:composite xmlns:t="http://tiramisu.org/dev-0">
     <t:data name="head">
+        <style>
+            .bold {
+                font-style: oblique;
+            }
+        </style>
     </t:data>
     <t:data name="body">
         <h2> Books </h2>
 
-        <table border="1">
-            <t:for var="book" items="books">
-                <tr>
-                    <td>${book.id()}</td>
-                    <td><a href="${book.id()}">${book.name()}</a></td>
-                    <td>${book.author()}</td>
-                </tr>
-            </t:for>
-        </table>
+        <t:for var="book" items="books">
+            <a href="${book.id()}">${book.name()}</a>
+        </t:for>
+
+        <t:for var="i" items="selected">
+            <p>
+                <table style="border: none">
+                    <tr>
+                        <td class="bold">Name</td>
+                        <td>${i.name()}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Author</td>
+                        <td>${i.author()}</td>
+                    </tr>
+                </table>
+            </p>
+        </t:for>
 
     </t:data>
 </t:composite>

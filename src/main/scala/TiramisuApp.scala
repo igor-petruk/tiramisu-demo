@@ -1,32 +1,19 @@
 package org.tiramisu.app
 
 import org.tiramisu._
+import org.tiramisu.providers._
 
 case class Book(id:Int, name:String, author:String)
 
-trait IndexController{self:Controller=>
-  route -> {
-    request.getRequestDispatcher("/store/books").forward(request, response)
-  }
-}
-
 trait BookController{ self: Controller with BookRepository =>
-
   implicit def bookProvider = booksDao
 
   template("booksTemplate"){
 
-    val routeBooks = route /"store"/"books"
-
-    def composeBooks(selected:Book*) =
-      compose("booksPage","books"->booksDao.all,"selected"->selected)
-
-    routeBooks -> composeBooks()
-
-    routeBooks /classOf[Book] -> {book=>
-      composeBooks(book)
+    route /"store"/"books"/classOf[Book] -> {book=>
+      compose("booksPage", "books"->booksDao.all,"selected"->List(book))
     }
-    
+
   }
 }
 
@@ -46,5 +33,4 @@ trait BookRepository{
 
 class BookApplication extends Tiramisu
   with BookRepository
-  with IndexController
   with BookController
