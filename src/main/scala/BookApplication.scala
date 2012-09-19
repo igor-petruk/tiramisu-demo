@@ -9,11 +9,9 @@ trait BookController{ self: Controller with BookRepository =>
   implicit def bookProvider = booksDao
 
   template("booksTemplate"){
-
     route /"store"/"books"/classOf[Book] -> {book=>
       compose("booksPage", "books"->booksDao.all,"selected"->List(book))
     }
-
   }
 }
 
