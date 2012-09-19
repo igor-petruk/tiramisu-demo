@@ -1,0 +1,23 @@
+<t:composite xmlns:t="http://tiramisu.org/dev-0">
+    <t:data name="head">
+    </t:data>
+    <t:data name="body">
+        <h2> Page 2 </h2>
+        Here goes текст
+        <a href="./compose">to page 1</a>
+        <a class="my-awesome-class" href="compose">to page 1</a>
+        <a href="compose?a=2&amp;ss=22">to page 1 with q</a>
+        <a href="/compose">to root</a>
+        Date: <t:out value="Date"/> <br/>
+        Book: <t:out value="Book"/>  <br/>
+        Store: <t:out value="store"/>  <br/>
+        <table border="1">
+            <t:for var="i" items="items">
+                <tr>
+                    <td><t:out value="i.name()"/></td>
+                    <td><t:out value="i.lastName()"/></td>
+                </tr>
+            </t:for>
+        </table>
+    </t:data>
+</t:composite>
