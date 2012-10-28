@@ -12,17 +12,19 @@ classpathTypes += "orbit"
 
 autoScalaLibrary := true
 
-
 /** Dependencies */
 resolvers ++= Seq(
 	"snapshots-repo" at "https://oss.sonatype.org/content/repositories/snapshots/",
 	"jars-repo" at "https://oss.sonatype.org/content/groups/scala-tools/"
 )
 
+seq(webSettings :_*)
+
 libraryDependencies <<= scalaVersion { scala_version => Seq(
 	"org.scala-lang" % "scala-library" % "2.10.0-RC1",
-	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" artifacts (Artifact("javax.servlet", "jar", "jar")),
-	"org.eclipse.jetty" % "jetty-webapp" % "8.1.4.v20120524" artifacts (Artifact("jetty-webapp", "jar", "jar")),
+	"org.eclipse.jetty" % "jetty-server" % "8.1.7.v20120910" % "container",
+	"org.eclipse.jetty" % "jetty-webapp" % "8.1.7.v20120910" % "container",
+	"org.eclipse.jetty" % "jetty-jsp" % "8.1.7.v20120910" % "container",
   "com.github.igor-petruk.tiramisu" %% "tiramisu-core" % "0.1-SNAPSHOT"
   )
 }
@@ -35,7 +37,11 @@ javaOptions += "-Xmx2G"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
-maxErrors := 20 
+//watchSources <+= baseDirectory map { _ / "src/main/webapp" }
+
+unmanagedResourceDirectories in Compile <+= (baseDirectory) { _ / "src/main/webapp" }
+
+maxErrors := 20
 
 pollInterval := 1000
 

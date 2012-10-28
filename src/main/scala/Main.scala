@@ -1,5 +1,5 @@
 package com.igorpetruk.heroku.comet
-
+  /*
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp._
 import java.util._
@@ -20,5 +20,5 @@ object Main {
     //server.join
   }
 }
-
+   */
 
