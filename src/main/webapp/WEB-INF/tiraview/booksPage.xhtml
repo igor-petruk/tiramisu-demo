@@ -1,20 +1,40 @@
-<t:composite xmlns:t="http://tiramisu.org/dev-0">
+<t:use component="booksTemplate" xmlns:t="http://tiramisu.org/dev-0">
     <t:data name="head">
+        <title>Книги</title>
     </t:data>
-    <t:data name="body">
-        <t:for var="i" items="selected">
-            <p>
-                <table style="border: none">
-                    <tr>
-                        <td class="bold">Имя</td>
-                        <td>${i.name()}</td>
-                    </tr>
-                    <tr>
-                        <td class="bold">Автор книги</td>
-                        <td>${i.author()}</td>
-                    </tr>
-                </table>
-            </p>
+
+    <t:data name="content">
+        <h2> Книги </h2>
+
+        <a>
+            <b xmlns:o="something">
+                <c>
+                  <o:z a="dss">
+                      <d>
+                          <o:m>
+                              <e/>
+                          </o:m>
+                      </d>
+                  </o:z>
+                </c>
+            </b>
+        </a>
+
+        <t:ololo>
+            <t:alala>
+                <b>
+                    <t:zz></t:zz>
+                </b>
+            </t:alala>
+        </t:ololo>
+
+        <t:for var="book" items="books">
+            <a href="${book.id()}">${book.name()}</a>
+        </t:for>
+
+        <t:for var="book" items="selected">
+            ${book.name()}
         </t:for>
     </t:data>
-</t:composite>
+</t:use>
+

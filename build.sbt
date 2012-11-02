@@ -25,7 +25,8 @@ libraryDependencies <<= scalaVersion { scala_version => Seq(
 	"org.eclipse.jetty" % "jetty-server" % "8.1.7.v20120910" % "container",
 	"org.eclipse.jetty" % "jetty-webapp" % "8.1.7.v20120910" % "container",
 	"org.eclipse.jetty" % "jetty-jsp" % "8.1.7.v20120910" % "container",
-  "com.github.igor-petruk.tiramisu" %% "tiramisu-core" % "0.1-SNAPSHOT"
+  "com.github.igor-petruk.tiramisu" %% "tiramisu-core" % "0.1-SNAPSHOT",
+  "ch.qos.logback" % "logback-classic" % "1.0.7"
   )
 }
 
