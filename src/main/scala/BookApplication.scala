@@ -32,7 +32,7 @@ trait BookRepository{
       Book(3, "Сказки", "Пушкин")
     )
     
-    val booksIndex = all.groupBy(_.id).map{item=>(item._1,item._2.head)}
+    val booksIndex = all.groupBy(_.id).mapValues(_.head)
 
     def provide(id:String) = booksIndex.getOrElse(Integer.parseInt(id), null)
   }
