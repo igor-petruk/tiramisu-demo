@@ -18,7 +18,7 @@ trait BookController extends Extra { self: Controller with BookRepository =>
 
   route /"store"/"books"/opt(classOf[Book]) -> {book=>
    // sessionBook.value = book
-    compose("booksPage", "books"->booksDao.all,"selected"->List(book))
+    compose("booksPage", "books"->booksDao.all,"selected"->book)
   }
 }
 
