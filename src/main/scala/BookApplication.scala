@@ -16,11 +16,9 @@ trait BookController extends Extra { self: Controller with BookRepository =>
 
   route ->  response.sendRedirect("/store/books/1")
 
-  template("booksTemplate"){
-    route /"store"/"books"/classOf[Book] -> {book=>
-      sessionBook.value = book
-      compose("booksPage", "books"->booksDao.all,"selected"->List(book))
-    }
+  route /"store"/"books"/opt(classOf[Book]) -> {book=>
+   // sessionBook.value = book
+    compose("booksPage", "books"->booksDao.all,"selected"->List(book))
   }
 }
 
@@ -34,7 +32,7 @@ trait BookRepository{
     
     val booksIndex = all.groupBy(_.id).mapValues(_.head)
 
-    def provide(id:String) = booksIndex.getOrElse(Integer.parseInt(id), null)
+    def provide(id:String) = booksIndex.get(Integer.parseInt(id)).getOrElse(null)
   }
 }
 
