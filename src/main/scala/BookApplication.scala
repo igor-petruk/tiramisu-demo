@@ -5,14 +5,14 @@ import org.tiramisu.providers._
 
 case class Book(id:Int, name:String, author:String)
 
-trait BookController { self: Controller with BookRepository =>
+trait BookController { self: Controller with BookRepository with Exposure =>
   implicit def bookProvider = booksDao
 
-  val visited = sessionBean[String]("")
+  val visited = sessionBean[String]("").expose
 
-  val books = requestBean[List[Book]]()
+  val books = requestBean[List[Book]]().expose
 
-  val selected = requestBean[Option[Book]]()
+  val selected = requestBean[Option[Book]]().expose
 
   route ->  response.sendRedirect("/store/books/1")
 
