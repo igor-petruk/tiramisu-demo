@@ -2,23 +2,26 @@ package org.tiramisu.app
 
 import org.tiramisu._
 import org.tiramisu.providers._
-import annotation.ClassfileAnnotation
 
 case class Book(id:Int, name:String, author:String)
 
-trait BookController extends Extra { self: Controller with BookRepository =>
+trait BookController { self: Controller with BookRepository =>
   implicit def bookProvider = booksDao
 
-  def session[T] = Bean[T](sessionScope) _
+  val visited = sessionBean[String]("")
 
-  @Exposed
-  val sessionBook = session[Book](null)
+  val books = requestBean[List[Book]]()
+
+  val selected = requestBean[Option[Book]]()
 
   route ->  response.sendRedirect("/store/books/1")
 
   route /"store"/"books"/opt(classOf[Book]) -> {book=>
+    visited.value += 1
+    books.value = booksDao.all
+    selected.value = book
    // sessionBook.value = book
-    compose("booksPage", "books"->booksDao.all,"selected"->book)
+    compose("booksPage", "books"->books,"selected"->selected, "visited"->visited)
   }
 }
 
@@ -36,6 +39,11 @@ trait BookRepository{
   }
 }
 
+trait SomethingOther {
+  val cookie:Int = 10
+}
+
 class BookApplication extends Tiramisu
   with BookRepository
   with BookController
+ with SomethingOther
